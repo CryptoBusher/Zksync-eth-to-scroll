@@ -3,3 +3,4 @@ wallets.txt
 package-lock.json
 .idea/
 node_modules/
+src/data/dataFiles/

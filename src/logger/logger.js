@@ -1,5 +1,9 @@
+import path from "path";
+import { fileURLToPath } from 'url';
 import { format, createLogger, transports} from 'winston';
 
+
+const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
 
 function buildLogger() {
@@ -17,7 +21,7 @@ function buildLogger() {
         transports: [
             new transports.Console(),
             new transports.File({
-                filename: 'logger/botlog.log',
+                filename: `${DIRNAME}/botlog.log`,
                 level: 'debug'
             })
         ]
