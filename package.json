@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "name": "zksync-eth-to-scroll",
+  "version": "1.0.0",
+  "description": "",
+  "main": "config.js",
+  "scripts": {
+    "start": "forever start -o out.log -e err.log scrollVolumeFarm.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^6.10.0",
+    "forever": "^4.0.3",
+    "https-proxy-agent": "^7.0.2",
+    "node-fetch": "^3.3.2",
+    "winston": "^3.11.0"
+  }
+}
