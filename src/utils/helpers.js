@@ -14,6 +14,22 @@ export const randomChoice = (arr) => {
 	return arr[randomIndex];
 };
 
+export const weightedRandomChoice = (options) => {
+	let randomNumber = Math.random();
+	let selectedOption;
+
+	for (const item in options) {
+		const probability = options[item];
+		if (randomNumber < probability) {
+			selectedOption = item;
+			break;
+		}
+		randomNumber -= probability;
+	};
+
+	return selectedOption;
+};
+
 export const randFloat = (min, max) => {
 	return Math.random() * (max - min) + min;
 };

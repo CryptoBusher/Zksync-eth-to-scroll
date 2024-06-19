@@ -15,7 +15,7 @@ export class DataBase {
         this.#loadAllWallets();
     }
 
-    #saveWallet(walletObj) {
+    saveWallet(walletObj) {
         const jsonData = JSON.stringify(walletObj, null, 2);
         fs.writeFileSync(`${DataBase.DIRNAME}/dataFiles/${walletObj.name}.json`, jsonData);
     }
@@ -39,14 +39,17 @@ export class DataBase {
             const [ name, privateKey, proxy ] = walletData.split('|');
             const progress = {
                 isDone: false,
+                fails: 0,
                 bridgeUsed: '',
                 amountBridged: 0,
-                txHash: ''
+                txHash: '',
+                ethSpent: 0,
+                comment: ''
             };
             const newWallet = new Wallet( name, privateKey, proxy, progress);
 
             this.walletObjects.push(newWallet);
-            this.#saveWallet(newWallet);
+            this.saveWallet(newWallet);
         }
 
         clearTxtFile(path);
@@ -54,5 +57,10 @@ export class DataBase {
 
     getRemainingWallets() {
         return this.walletObjects.filter(i => i.progress.isDone === false);
+    }
+
+    saveWallet(walletObj) {
+        const jsonData = JSON.stringify(walletObj, null, 2);
+        fs.writeFileSync(`${DataBase.DIRNAME}/dataFiles/${walletObj.name}.json`, jsonData);
     }
 }
