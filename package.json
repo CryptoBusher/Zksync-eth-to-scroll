@@ -5,7 +5,7 @@
   "description": "",
   "main": "config.js",
   "scripts": {
-    "start": "forever start -o out.log -e err.log scrollVolumeFarm.js"
+    "start": "forever start -o out.log -e err.log zksyncEthToScroll.js"
   },
   "author": "",
   "license": "ISC",

@@ -20,14 +20,14 @@ const startBridging = async () => {
         logger.info(`${wallet.name} - starting bridge operation`);
 
         try {
-            const [ isDone, bridgeUsed, amountBridged, txHash, ethSpent, comment ] = await bridgeExecutor.bridge(wallet);
-            wallet.progress.isDone = isDone;
-            wallet.progress.bridgeUsed = bridgeUsed;
-            wallet.progress.amountBridged = amountBridged;
-            wallet.progress.txHash = txHash;
-            wallet.ethSpent = ethSpent;
-            wallet.progress.comment = comment;
-            logger.info(`${wallet.name} - ${comment}`);
+            const updatedProgress = await bridgeExecutor.bridge(wallet);
+            wallet.progress = {
+                ...wallet.progress,
+                ...updatedProgress
+            };
+            
+            const logMsg = `${wallet.name} - ${wallet.progress.comment}` + (wallet.progress.txHash ? `, https://explorer.zksync.io/tx/${wallet.progress.txHash}` : '');
+            logger.info(logMsg);
         } catch (e) {
             wallet.progress.fails ++;
             wallet.progress.comment = e.message;

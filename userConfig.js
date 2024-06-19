@@ -1,7 +1,7 @@
 export const userConfig = {
-    accDelaySec: [1, 2],
+    accDelaySec: [120, 150],
     minimalBalanceEth: 0.0005,
-    slippages: [0.1, 0.2, 0.5],
+    slippages: [0.1, 0.2],
     maxFeeEth: 0.0003,
     bridgesToUse: {
         'routerNitro': 1

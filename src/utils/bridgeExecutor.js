@@ -68,23 +68,20 @@ export class BridgeExecutor {
         try {
             const [ actualAmountWei, txHash, ethSpent ] = await bridge.bridgeEthMax('zksyncera', 'scroll', this.minEthToProcessWei, this.maxFeeWei);
 
-            return [
-                true,
-                bridgeToUseName,
-                parseFloat(formatEther(await actualAmountWei.toString())),
-                await txHash,
-                await ethSpent,
-                'success'
-            ];
+            return {
+                isDone: true,
+                bridgeUsed: bridgeToUseName,
+                amountBridged: parseFloat(formatEther(await actualAmountWei.toString())),
+                txHash: await txHash,
+                ethSpent: await ethSpent,
+                comment: 'success'
+            };
         } catch (e) {
             if (e.message.includes('wallet balance is less than minimum set by user')) {
-                return [
-                    true,
-                    '',
-                    0,
-                    '',
-                    e.message
-                ];
+                return {
+                    isDone: true,
+                    comment: e.message
+                };
             } else {
                 throw new Error(e.message);
             }

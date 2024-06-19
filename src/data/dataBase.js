@@ -11,13 +11,16 @@ export class DataBase {
     static DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
     constructor() {
+        this.#initDataFilesDir();
         this.walletObjects = [];
         this.#loadAllWallets();
     }
 
-    saveWallet(walletObj) {
-        const jsonData = JSON.stringify(walletObj, null, 2);
-        fs.writeFileSync(`${DataBase.DIRNAME}/dataFiles/${walletObj.name}.json`, jsonData);
+    #initDataFilesDir() {
+        const dir = `${DataBase.DIRNAME}/dataFiles`
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
     }
 
     #loadWallet(filePath) {
@@ -31,6 +34,11 @@ export class DataBase {
             const walletFilePath = `${DataBase.DIRNAME}/dataFIles/${walletFileName}` ;
             this.walletObjects.push(this.#loadWallet(walletFilePath));
         }
+    }
+
+    saveWallet(walletObj) {
+        const jsonData = JSON.stringify(walletObj, null, 2);
+        fs.writeFileSync(`${DataBase.DIRNAME}/dataFiles/${walletObj.name}.json`, jsonData);
     }
 
     generateNewWalletsFromTxt(path) {
