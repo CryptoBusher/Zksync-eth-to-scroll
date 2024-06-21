@@ -31,7 +31,7 @@ export class DataBase {
     #loadAllWallets() {
         const walletFileNames = fs.readdirSync(`${DataBase.DIRNAME}/dataFiles`)
         for (const walletFileName of walletFileNames) {
-            const walletFilePath = `${DataBase.DIRNAME}/dataFIles/${walletFileName}` ;
+            const walletFilePath = `${DataBase.DIRNAME}/dataFiles/${walletFileName}` ;
             this.walletObjects.push(this.#loadWallet(walletFilePath));
         }
     }
