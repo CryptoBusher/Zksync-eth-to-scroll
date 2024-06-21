@@ -3,7 +3,10 @@ import { BridgeExecutor } from './src/utils/bridgeExecutor.js';
 import { shuffleArray, sleep, randInt } from './src/utils/helpers.js';
 import { logger } from './src/logger/logger.js';
 import { userConfig } from './userConfig.js';
+import { TelegramBot } from "./src/modules/telegram.js";
 
+
+const tgBot = new TelegramBot(userConfig.telegramData.botToken, userConfig.telegramData.chatIds);
 
 
 const startBridging = async () => { 
@@ -26,12 +29,20 @@ const startBridging = async () => {
                 ...updatedProgress
             };
             
-            const logMsg = `${wallet.name} - ${wallet.progress.comment}` + (wallet.progress.txHash ? `, https://explorer.zksync.io/tx/${wallet.progress.txHash}` : '');
+            const logMsg = `#${wallet.name} - ${wallet.progress.comment}` + (wallet.progress.txHash ? `, https://explorer.zksync.io/tx/${wallet.progress.txHash}` : '');
             logger.info(logMsg);
+
+            const telegramMessage = `✅ #success\n\n${logMsg}`;
+            await tgBot.notifyAll(telegramMessage);
         } catch (e) {
             wallet.progress.fails ++;
             wallet.progress.comment = e.message;
-            logger.error(`${wallet.name} - failed, reason: ${e.message}`);
+
+            const logMsg = `#${wallet.name} - failed, reason: ${e.message}`
+            logger.error(logMsg);
+
+            const telegramMessage = `⛔️ #fail\n\n${logMsg}`;
+            await tgBot.notifyAll(telegramMessage);
         }
 
         dataBase.saveWallet(wallet);

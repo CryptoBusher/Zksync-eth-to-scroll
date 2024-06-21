@@ -1,3 +1,6 @@
+import 'dotenv/config';
+
+
 export const userConfig = {
     accDelaySec: [1800, 5400],
     minimalBalanceEth: 0.0005,
@@ -7,11 +10,17 @@ export const userConfig = {
         'routerNitro': 1
     },
     rpcs: {
-        'zksyncera': 'https://zksync.drpc.org',
-        'scroll': 'https://scroll.drpc.org'
+        'zksyncera': process.env.ZKSYNCERA_RPC,
+        'scroll': process.env.SCROLL_PRC
     },
     generalProxy: {
         'address': '',
         'link': ''
-    }
+    },
+	telegramData: {	
+		botToken: process.env.TG_BOT_TOKEN,
+		chatIds: [
+			process.env.TG_CHAT_ID,
+		]
+	},
 };
