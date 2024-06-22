@@ -10,8 +10,7 @@ export const userConfig = {
         'routerNitro': 1
     },
     rpcs: {
-        'zksyncera': process.env.ZKSYNCERA_RPC,
-        'scroll': process.env.SCROLL_PRC
+        'zksyncera': process.env.ZKSYNCERA_RPC
     },
     generalProxy: {
         'address': '',
