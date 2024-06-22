@@ -6,7 +6,7 @@ import { userConfig } from './userConfig.js';
 import { TelegramBot } from "./src/modules/telegram.js";
 
 
-const tgBot = new TelegramBot(userConfig.telegramData.botToken, userConfig.telegramData.chatIds);
+const tgBot = userConfig.telegramData.botToken ? new TelegramBot(userConfig.telegramData.botToken, userConfig.telegramData.chatIds) : undefined;
 
 
 const startBridging = async () => { 
@@ -33,7 +33,10 @@ const startBridging = async () => {
             logger.info(logMsg);
 
             const telegramMessage = `✅ #success\n\n${logMsg}`;
-            await tgBot.notifyAll(telegramMessage);
+            if (tgBot) {
+                await tgBot.notifyAll(telegramMessage);
+            }
+            
         } catch (e) {
             wallet.progress.fails ++;
             wallet.progress.comment = e.message;
@@ -42,7 +45,9 @@ const startBridging = async () => {
             logger.error(logMsg);
 
             const telegramMessage = `⛔️ #fail\n\n${logMsg}`;
-            await tgBot.notifyAll(telegramMessage);
+            if (tgBot) {
+                await tgBot.notifyAll(telegramMessage);
+            }
         }
 
         dataBase.saveWallet(wallet);
